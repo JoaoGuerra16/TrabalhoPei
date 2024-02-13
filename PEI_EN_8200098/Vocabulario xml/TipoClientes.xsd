@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="TipoClientes.xsd"
+    xmlns="TipoClientes.xsd" elementFormDefault="qualified">
+    
+    
+    
+    <xs:complexType name="TipoClientes">
+        <xs:sequence>
+            <xs:element name="Primeiro_nome" type="xs:string"/>
+            <xs:element name="Ultimo_nome" type="xs:string"/>
+            <xs:element name="Email" type="xs:string" default="Desconhecido" /> <!-- Caso nao coloque nada, aparece desconhecido--> 
+            <xs:element name="Morada" type="TipoMorada"/>
+            <xs:element name="Tipo_cliente" type="TipoCliente"/>   
+            <xs:element name="compras_3anos" type="xs:integer"/>
+            <xs:element name="ValorTotal" type="xs:decimal"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    
+    <xs:complexType name="TipoMorada">
+        <xs:sequence>
+            <xs:element name="País" type="xs:string"/>
+            <xs:element name="Cidade" type="xs:string"/>
+            <xs:element name="Codigo_Postal">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="\d{5}"></xs:pattern> <!-- Esta restrição obriga que coloque exatamente 5 digitos -->
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    <xs:simpleType name="TipoCliente">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="novo"/>
+            <xs:enumeration value="regular"/>
+            <xs:enumeration value="premium"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+
+    
+    
+</xs:schema>

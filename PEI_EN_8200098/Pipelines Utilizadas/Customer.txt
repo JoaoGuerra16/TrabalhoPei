@@ -1,0 +1,217 @@
+[
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "Adress",
+        localField: "address_id",
+        foreignField: "address_id",
+        as: "Morada",
+      },
+  },
+  {
+    $unwind: "$Morada",
+  },
+  {
+    $addFields:
+      /**
+       * newField: The new field name.
+       * expression: The new field expression.
+       */
+      {
+        Tipo_cliente: {
+          $switch: {
+            branches: [
+              {
+                case: {
+                  $lt: [
+                    {
+                      $divide: [
+                        {
+                          $subtract: [
+                            "$$NOW",
+                            {
+                              $dateFromString: {
+                                dateString:
+                                  "$create_date",
+                              },
+                            },
+                          ],
+                        },
+                        31536000000,
+                      ],
+                    },
+                    1,
+                  ],
+                },
+                then: "novo",
+              },
+              {
+                case: {
+                  $lte: [
+                    {
+                      $divide: [
+                        {
+                          $subtract: [
+                            "$$NOW",
+                            {
+                              $dateFromString: {
+                                dateString:
+                                  "$create_date",
+                              },
+                            },
+                          ],
+                        },
+                        31536000000,
+                      ],
+                    },
+                    5,
+                  ],
+                },
+                then: "regular",
+              },
+            ],
+            default: "premium",
+          },
+        },
+      },
+  },
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "Sales_header",
+        localField: "id",
+        foreignField: "customer_id",
+        as: "Faturas",
+      },
+  },
+  {
+    $unwind:
+      /**
+       * path: Path to the array field.
+       * includeArrayIndex: Optional name for index.
+       * preserveNullAndEmptyArrays: Optional
+       *   toggle to unwind null and empty values.
+       */
+      "$Faturas",
+  },
+  {
+    $match:
+      /**
+       * query: The query in MQL.
+       */
+      {
+        $expr: {
+          $and: [
+            {
+              $gte: [
+                {
+                  $toDate: "$Faturas.date",
+                },
+                {
+                  $subtract: [
+                    "$$NOW",
+                    3 * 365 * 24 * 60 * 60 * 1000, // 3 anos em milissegundos
+                  ],
+                },
+              ],
+            },
+            {
+              $lte: [
+                {
+                  $toDate: "$Faturas.date",
+                },
+                "$$NOW",
+              ],
+            },
+          ],
+        },
+      },
+  },
+  {
+    $group:
+      /**
+       * _id: The id of the group.
+       * fieldN: The first field name.
+       */
+      {
+        _id: "$_id",
+        id: {
+          $first: "$id",
+        },
+        first_name: {
+          $first: "$first_name",
+        },
+        last_name: {
+          $first: "$last_name",
+        },
+        Email: {
+          $first: "$email",
+        },
+        Morada: {
+          $first: {
+            País: "$Morada.País",
+            Cidade: "$Morada.Cidade",
+            CodigoPostal: "$Morada.postal_code",
+          },
+        },
+        Tipo_Cliente: {
+          $first: "$Tipo_cliente",
+        },
+        ComprasRealizadas: {
+          $sum: 1,
+        },
+        ValorTotal: {
+          $sum: "$Faturas.ValorTotal",
+        },
+      },
+  },
+  {
+    $project:
+      /**
+       * specifications: The fields to
+       *   include or exclude.
+       */
+      {
+        _id: 1,
+        id: 1,
+        first_name: 1,
+        last_name: 1,
+        Email: 1,
+        Morada: 1,
+        Tipo_Cliente: 1,
+        ComprasRealizadas: 1,
+        ValorTotal: 1,
+      },
+  },
+  {
+    $merge:
+      /**
+       * into: The target collection.
+       * on: Fields to  identify.
+       * let: Defined variables.
+       * whenMatched: Action for matching docs.
+       * whenNotMatched: Action for non-matching docs.
+       */
+      {
+        into: "CustomerTeste",
+        whenMatched: "merge",
+        whenNotMatched: "insert",
+      },
+  },
+]

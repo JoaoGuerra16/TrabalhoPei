@@ -1,0 +1,48 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<Relatório_devoluções xmlns="Relatório_devoluções.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="Relat%C3%B3rio_devolu%C3%A7%C3%B5es.xsd Relat%C3%B3rio_devolu%C3%A7%C3%B5es.xsd" 
+    xmlns:c="TipoClientes.xsd"
+    xmlns:p="TipoProdutos.xsd"
+    xmlns:v="TipoVenda.xsd"
+    xmlns:pa="TipoParceiro.xsd"
+    xmlns:d="TipoDevolução.xsd"
+    xmlns:r="resumo.xsd">
+   
+   
+<parceiro>
+    <pa:NIF>123456789</pa:NIF>
+    <pa:Nome></pa:Nome>
+    <pa:Morada></pa:Morada>
+    <pa:Ano_fiscal>2002</pa:Ano_fiscal>
+    <pa:Mês>2</pa:Mês>
+</parceiro>
+    
+    <produtos>
+        <p:codigo></p:codigo>
+        <p:marca></p:marca>
+        <p:modelo></p:modelo>
+        <p:PrecoAtual>3</p:PrecoAtual>
+        <p:Categoria>
+            <p:gama_precos>Budget</p:gama_precos>
+            <p:desempenho>Basic</p:desempenho>
+            <p:qualidade_camera>Basic</p:qualidade_camera>
+            <p:tamanho_ecra>Medium</p:tamanho_ecra>
+            <p:capacidade_bateria>Average</p:capacidade_bateria>
+            <p:capacidade_armazenamento>Medium</p:capacidade_armazenamento>
+        </p:Categoria>
+    </produtos>
+    
+    <devolução>
+        <d:Codigo_Fatura></d:Codigo_Fatura>
+        <d:Data_datura>2002-12-12</d:Data_datura>
+        <d:Codigo_produto></d:Codigo_produto>
+        <d:Dias_devolução>2</d:Dias_devolução>
+        <d:Devolucao_precoce>Não</d:Devolucao_precoce>
+    </devolução>
+    
+    <resumo>
+        <r:numeroProdutos>2</r:numeroProdutos>
+        <r:numeroDevolucoes>2</r:numeroDevolucoes>
+    </resumo>
+</Relatório_devoluções>

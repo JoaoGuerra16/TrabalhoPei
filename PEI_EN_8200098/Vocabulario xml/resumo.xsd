@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="resumo.xsd"
+    xmlns="resumo.xsd" elementFormDefault="qualified"> 
+
+    <xs:complexType name="resumoVendas">
+        <xs:sequence>
+            <xs:element name="numeroProdutos" type="xs:integer"></xs:element>
+            <xs:element name="totalVendas" type="xs:integer"></xs:element>
+            <xs:element name="numeroClientes" type="xs:integer"></xs:element>
+            <xs:element name="vendasCategoria" type="xs:integer"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="resumoDevolucao">
+        <xs:sequence>
+            <xs:element name="numeroProdutos" type="xs:integer"></xs:element>
+            <xs:element name="numeroDevolucoes" type="xs:integer"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+</xs:schema>

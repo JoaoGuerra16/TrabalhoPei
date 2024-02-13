@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="TipoVenda.xsd"
+    xmlns="TipoVenda.xsd" elementFormDefault="qualified">
+    
+    
+    
+    <xs:complexType name="TipoVenda">
+        <xs:sequence>
+            <xs:element name="codigo_fatura" type="xs:string"/>
+            <xs:element name="data_venda" type="xs:date"/>
+            <xs:element name="codigo_cliente" type="xs:string"/>
+            <xs:element name="valor_total_venda" type="xs:decimal"/>
+            <xs:element name="linhas_venda" maxOccurs="unbounded" type="TipoLinhaVenda"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="TipoLinhaVenda">
+        <xs:sequence>
+            <xs:element name="numero_linha" type="xs:integer"/>
+            <xs:element name="codigo_produto" type="xs:string"/>
+            <xs:element name="quantidade" type="xs:integer"/>
+            <xs:element name="valor_total_linha" type="xs:decimal"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+</xs:schema>

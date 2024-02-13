@@ -1,0 +1,67 @@
+[
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "City",
+        localField: "city_id",
+        foreignField: "city_id",
+        as: "Cidade",
+      },
+  },
+  {
+    $unwind: "$Cidade",
+  },
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "Country",
+        localField: "Cidade.country_id",
+        foreignField: "country_id",
+        as: "País",
+      },
+  },
+  {
+    $unwind: "$País",
+  },
+  {
+    $project:
+      /**
+       * specifications: The fields to
+       *   include or exclude.
+       */
+      {
+        _id: 1,
+        address_id: 1,
+        address: 1,
+        address2: 1,
+        district: 1,
+        city_id: 1,
+        postal_code: 1,
+        Cidade: "$Cidade.city",
+        País: "$País.country",
+      },
+  },
+  {
+    $out:
+      /**
+       * Provide the name of the output collection.
+       */
+      "Address",
+  },
+]

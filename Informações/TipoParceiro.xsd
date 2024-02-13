@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="TipoParceiro.xsd"
+    xmlns="TipoParceiro.xsd" elementFormDefault="qualified">
+
+
+<xs:complexType name="TipoParceiro">
+    <xs:sequence>
+        <xs:element name="NIF" type="TipoNif"/> 
+        <xs:element name="Nome" type="xs:string"/>
+        <xs:element name="Morada" type="xs:string"/>
+        <xs:element name="Ano_fiscal" type="TipoAnoFiscal"/>
+        <xs:element name="Mês" type="TipoMês"/>
+    </xs:sequence>
+</xs:complexType>
+
+
+
+
+<xs:simpleType name="TipoNif">
+    <xs:restriction base="xs:string">
+        <xs:pattern value="\d{9}"></xs:pattern>
+    </xs:restriction>
+</xs:simpleType>
+    
+    <xs:simpleType name="TipoAnoFiscal">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{4}"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="TipoMês">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Janeiro"></xs:enumeration>
+            <xs:enumeration value="Fevereiro"></xs:enumeration>
+            <xs:enumeration value="Março"></xs:enumeration>
+            <xs:enumeration value="Abril"></xs:enumeration>
+            <xs:enumeration value="Maio"></xs:enumeration>
+            <xs:enumeration value="Junho"></xs:enumeration>
+            <xs:enumeration value="Julho"></xs:enumeration>
+            <xs:enumeration value="Agosto"></xs:enumeration>
+            <xs:enumeration value="Setembro"></xs:enumeration>
+            <xs:enumeration value="Outubro"></xs:enumeration>
+            <xs:enumeration value="Novembro"></xs:enumeration>
+            <xs:enumeration value="Dezembro"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    
+</xs:schema>

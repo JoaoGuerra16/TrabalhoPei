@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="TipoDevolução.xsd"
+    xmlns="TipoDevolução.xsd" elementFormDefault="qualified">
+    
+    
+    <xs:complexType name="TipoDevolução">
+        <xs:sequence>
+            <xs:element name="Codigo_Fatura" type="xs:integer"></xs:element>
+            <xs:element name="Data_datura" type="xs:date"></xs:element>
+            <xs:element name="Codigo_produto" type="xs:integer"/>
+            <xs:element name="Dias_devolução" type="xs:integer"></xs:element> 
+            <xs:element name="Devolucao_precoce" type="TipoPrecoce"></xs:element>
+            
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:simpleType name="TipoPrecoce">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Sim"></xs:enumeration>
+            <xs:enumeration value="Não"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    
+</xs:schema>

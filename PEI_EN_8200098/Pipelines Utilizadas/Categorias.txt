@@ -1,0 +1,179 @@
+[
+  {
+    $lookup: {
+      from: "Sub_category_product",
+      localField: "id",
+      foreignField: "product_id",
+      as: "subcategories_products",
+    },
+  },
+  {
+    $unwind: "$subcategories_products",
+  },
+  {
+    $lookup: {
+      from: "Sub_category",
+      localField:
+        "subcategories_products.sub_category_id",
+      foreignField: "id",
+      as: "subcategory",
+    },
+  },
+  {
+    $unwind: "$subcategory",
+  },
+  {
+    $lookup: {
+      from: "Category",
+      localField: "subcategory.category_id",
+      foreignField: "id",
+      as: "category",
+    },
+  },
+  {
+    $unwind: "$category",
+  },
+  {
+    $group: {
+      _id: "$_id",
+      id: {
+        $first: "$id",
+      },
+      brand: {
+        $first: "$brand",
+      },
+      model: {
+        $first: "$model",
+      },
+      list_price: {
+        $first: "$list_price",
+      },
+      Categories: {
+        $addToSet: {
+          $cond: {
+            if: {
+              $eq: [
+                "$category.name",
+                "Price Range",
+              ],
+            },
+            then: {
+              "Price Range": "$subcategory.name",
+            },
+            else: {
+              $cond: {
+                if: {
+                  $eq: [
+                    "$category.name",
+                    "Performance",
+                  ],
+                },
+                then: {
+                  Performance:
+                    "$subcategory.name",
+                },
+                else: {
+                  $cond: {
+                    if: {
+                      $eq: [
+                        "$category.name",
+                        "Camera Quality",
+                      ],
+                    },
+                    then: {
+                      "Camera Quality":
+                        "$subcategory.name",
+                    },
+                    else: {
+                      $cond: {
+                        if: {
+                          $eq: [
+                            "$category.name",
+                            "Screen Size",
+                          ],
+                        },
+                        then: {
+                          "Screen Size":
+                            "$subcategory.name",
+                        },
+                        else: {
+                          $cond: {
+                            if: {
+                              $eq: [
+                                "$category.name",
+                                "Battery Life",
+                              ],
+                            },
+                            then: {
+                              "Battery Life":
+                                "$subcategory.name",
+                            },
+                            else: {
+                              $cond: {
+                                if: {
+                                  $eq: [
+                                    "$category.name",
+                                    "Storage Capacity",
+                                  ],
+                                },
+                                then: {
+                                  "Storage Capacity":
+                                    "$subcategory.name",
+                                },
+                                else: null,
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    $set:
+      /**
+       * into: The target collection.
+       * on: Fields to  identify.
+       * let: Defined variables.
+       * whenMatched: Action for matching docs.
+       * whenNotMatched: Action for non-matching docs.
+       */
+      {
+        Categories: {
+          $mergeObjects: "$Categories",
+        },
+      },
+  },
+  {
+    $project: {
+      _id: 1,
+      id: 1,
+      model: 1,
+      brand: 1,
+      list_price: 1,
+      Categories: 1,
+    },
+  },
+  {
+    $merge:
+      /**
+       * into: The target collection.
+       * on: Fields to  identify.
+       * let: Defined variables.
+       * whenMatched: Action for matching docs.
+       * whenNotMatched: Action for non-matching docs.
+       */
+      {
+        into: "ProdutosMerge",
+        whenMatched: "merge",
+        whenNotMatched: "insert",
+      },
+  },
+]

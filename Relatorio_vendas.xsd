@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="Relatorio_vendas.xsd"
+    xmlns="Relatorio_vendas.xsd"
+    elementFormDefault="qualified"
+    xmlns:c="TipoClientes.xsd"
+    xmlns:p="TipoProdutos.xsd"
+    xmlns:v="TipoVenda.xsd"
+    xmlns:pa="TipoParceiro.xsd"
+    xmlns:r ="resumo.xsd">
+    
+    <xs:import schemaLocation="./Informa%C3%A7%C3%B5es/TipoClientes.xsd"
+        namespace ="TipoClientes.xsd"></xs:import>
+    <xs:import schemaLocation="./Informa%C3%A7%C3%B5es/TipoProdutos.xsd"
+        namespace ="TipoProdutos.xsd"></xs:import>
+    <xs:import schemaLocation="Informa%C3%A7%C3%B5es/TipoVenda.xsd"
+        namespace ="TipoVenda.xsd"></xs:import>
+    <xs:import schemaLocation="Informa%C3%A7%C3%B5es/TipoParceiro.xsd"
+        namespace ="TipoParceiro.xsd"></xs:import>
+    <xs:import schemaLocation="Informa%C3%A7%C3%B5es/resumo.xsd"
+        namespace = "resumo.xsd"></xs:import>
+    
+    <xs:element name="relatorio_vendas">
+        <xs:complexType>
+           <xs:sequence>
+               <xs:element name="parceiro" maxOccurs="unbounded" type="pa:TipoParceiro"/> 
+               <xs:element name="Clientes" maxOccurs="unbounded" type="c:TipoClientes"/> <!--Clientes poderá ficar dentro do elemento Parceiro??--> 
+               <xs:element name="Produtos" maxOccurs="unbounded" type="p:TipoProdutos"></xs:element>
+               <xs:element name="TipoVenda" maxOccurs="unbounded" type="v:TipoVenda"></xs:element>
+               <xs:element name ="Resumo" maxOccurs="unbounded" type="r:resumoVendas"></xs:element>
+           </xs:sequence>
+                
+            
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>

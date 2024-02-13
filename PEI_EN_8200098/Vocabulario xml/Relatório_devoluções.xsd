@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="Relatório_devoluções.xsd"
+    xmlns="Relatório_devoluções.xsd"
+    elementFormDefault="qualified"
+    xmlns:c="TipoClientes.xsd"
+    xmlns:p="TipoProdutos.xsd"
+    xmlns:v="TipoVenda.xsd"
+    xmlns:pa="TipoParceiro.xsd"
+    xmlns:d="TipoDevolução.xsd"
+    xmlns:r="resumo.xsd">
+    
+    <xs:import schemaLocation="./Informa%C3%A7%C3%B5es/TipoClientes.xsd"
+        namespace ="TipoClientes.xsd"></xs:import>
+    <xs:import schemaLocation="Informa%C3%A7%C3%B5es/TipoProdutos.xsd"
+        namespace ="TipoProdutos.xsd"></xs:import>
+    <xs:import schemaLocation="Informa%C3%A7%C3%B5es/TipoVenda.xsd"
+        namespace ="TipoVenda.xsd"></xs:import>
+    <xs:import schemaLocation="Informa%C3%A7%C3%B5es/TipoParceiro.xsd"
+        namespace ="TipoParceiro.xsd"></xs:import>
+    <xs:import schemaLocation="Informa%C3%A7%C3%B5es/TipoDevolu%C3%A7%C3%A3o.xsd"
+        namespace ="TipoDevolução.xsd"></xs:import>
+    <xs:import schemaLocation="Informa%C3%A7%C3%B5es/resumo.xsd"
+        namespace="resumo.xsd"></xs:import>
+    
+    <xs:element name="Relatório_devoluções">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="parceiro" maxOccurs="unbounded" type="pa:TipoParceiro" ></xs:element>
+                <xs:element name="produtos" maxOccurs="unbounded" type="p:TipoProdutos"></xs:element>
+                <xs:element name="devolução" maxOccurs="unbounded" type="d:TipoDevolução"></xs:element>
+                <xs:element name="resumo" maxOccurs="unbounded" type="r:resumoDevolucao"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    
+
+</xs:schema>

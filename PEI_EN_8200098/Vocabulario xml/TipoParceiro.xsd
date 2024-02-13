@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="TipoParceiro.xsd"
+    xmlns="TipoParceiro.xsd" elementFormDefault="qualified">
+
+
+<xs:complexType name="TipoParceiro">
+    <xs:sequence>
+        <xs:element name="NIF" type="TipoNif"/> 
+        <xs:element name="Nome" type="xs:string"/>
+        <xs:element name="Morada" type="xs:string"/>
+        <xs:element name="Ano_fiscal" type="TipoAnoFiscal"/>
+        <xs:element name="Mês" type="xs:integer"/>
+    </xs:sequence>
+</xs:complexType>
+
+
+
+
+<xs:simpleType name="TipoNif">
+    <xs:restriction base="xs:string">
+        <xs:pattern value="\d{9}"></xs:pattern>
+    </xs:restriction>
+</xs:simpleType>
+    
+    <xs:simpleType name="TipoAnoFiscal">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{4}"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    
+</xs:schema>

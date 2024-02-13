@@ -1,0 +1,110 @@
+[
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "Sales_header",
+        localField: "invoice_id",
+        foreignField: "invoice_id",
+        as: "Faturas",
+      },
+  },
+  {
+    $unwind: "$Faturas",
+  },
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "Sales_line",
+        localField: "invoice_id",
+        foreignField: "invoice_id",
+        as: "Vendas",
+      },
+  },
+  // {
+  //   $unwind: "$Vendas",
+  // }
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "ProdutosCategorias",
+        localField: "Vendas.product_id",
+        foreignField: "id",
+        as: "Produtos",
+      },
+  },
+  {
+    $addFields:
+      /**
+       * newField: The new field name.
+       * expression: The new field expression.
+       */
+      {
+        DiasAteDevolucao: {
+          $divide: [
+            {
+              $subtract: [
+                "$date",
+                "$Faturas.date",
+              ],
+            },
+            86400000,
+          ],
+        },
+        DevolucaoPrecoce: {
+          $cond: {
+            if: {
+              $lte: [
+                {
+                  $subtract: [
+                    "$date",
+                    "$Faturas.date",
+                  ],
+                },
+                259200000,
+              ],
+            },
+            then: "Sim",
+            else: "Não",
+          },
+        },
+      },
+  },
+  {
+    $project:
+      /**
+       * specifications: The fields to
+       *   include or exclude.
+       */
+      {
+        Produtos: 1,
+        invoice_id: 1,
+        date: 1,
+        DiasAteDevolucao: 1,
+        DevolucaoPrecoce: 1,
+      },
+  },
+]

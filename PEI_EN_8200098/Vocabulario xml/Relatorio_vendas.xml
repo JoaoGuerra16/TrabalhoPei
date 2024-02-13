@@ -1,0 +1,68 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<relatorio_vendas xmlns="Relatorio_vendas.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="Relatorio_vendas.xsd Relatorio_vendas.xsd"
+    xmlns:c="TipoClientes.xsd"
+    xmlns:p="TipoProdutos.xsd"
+    xmlns:v="TipoVenda.xsd"
+    xmlns:pa="TipoParceiro.xsd"
+    xmlns:r ="resumo.xsd">
+    
+  <parceiro>
+      <pa:NIF>123456789</pa:NIF>
+      <pa:Nome>Joao</pa:Nome>
+      <pa:Morada></pa:Morada>
+      <pa:Ano_fiscal>1234</pa:Ano_fiscal>
+      <pa:Mês>2</pa:Mês>
+  </parceiro>
+
+<Clientes>
+    <c:Primeiro_nome></c:Primeiro_nome>
+    <c:Ultimo_nome></c:Ultimo_nome>
+    <c:Email>Desconhecido</c:Email>
+    <c:Morada>
+        <c:País></c:País>
+        <c:Cidade></c:Cidade>
+        <c:Codigo_Postal>12345</c:Codigo_Postal>
+    </c:Morada>
+    <c:Tipo_cliente>novo</c:Tipo_cliente>
+    <c:compras_3anos>2</c:compras_3anos>
+    <c:ValorTotal>3</c:ValorTotal>
+</Clientes>
+    
+    <Produtos>
+        <p:codigo></p:codigo>
+        <p:marca></p:marca>
+        <p:modelo></p:modelo>
+        <p:PrecoAtual>2</p:PrecoAtual>
+        <p:Categoria>
+            <p:gama_precos>Budget</p:gama_precos>
+            <p:desempenho>Basic</p:desempenho>
+            <p:qualidade_camera>Basic</p:qualidade_camera>
+            <p:tamanho_ecra>Large</p:tamanho_ecra>
+            <p:capacidade_bateria>Long</p:capacidade_bateria>
+            <p:capacidade_armazenamento>High</p:capacidade_armazenamento>
+        </p:Categoria>
+    </Produtos>
+    
+    <TipoVenda>
+        <v:codigo_fatura></v:codigo_fatura>
+        <v:data_venda>2002-12-12</v:data_venda>
+        <v:codigo_cliente></v:codigo_cliente>
+        <v:valor_total_venda>2</v:valor_total_venda>
+        <v:linhas_venda>
+            <v:numero_linha>2</v:numero_linha>
+            <v:codigo_produto></v:codigo_produto>
+            <v:quantidade>2</v:quantidade>
+            <v:valor_total_linha>2</v:valor_total_linha>
+        </v:linhas_venda>
+    </TipoVenda>
+    
+    <Resumo>
+        <r:numeroProdutos>3</r:numeroProdutos>
+        <r:totalVendas>2</r:totalVendas>
+        <r:numeroClientes>3</r:numeroClientes>
+        <r:vendasCategoria>3</r:vendasCategoria>
+    </Resumo>
+    
+</relatorio_vendas>

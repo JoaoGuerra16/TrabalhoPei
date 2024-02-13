@@ -1,0 +1,111 @@
+[
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "Sales_header",
+        localField: "id",
+        foreignField: "customer_id",
+        as: "Faturas",
+      },
+  },
+  {
+    $unwind:
+      /**
+       * path: Path to the array field.
+       * includeArrayIndex: Optional name for index.
+       * preserveNullAndEmptyArrays: Optional
+       *   toggle to unwind null and empty values.
+       */
+      "$Faturas",
+  },
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "Sales_line",
+        localField: "Faturas.invoice_id",
+        foreignField: "invoice_id",
+        as: "Vendas",
+      },
+  },
+  {
+    $unwind: "$Vendas",
+  },
+  {
+    $lookup:
+      /**
+       * from: The target collection.
+       * localField: The local join field.
+       * foreignField: The target join field.
+       * as: The name for the results.
+       * pipeline: Optional pipeline to run on the foreign collection.
+       * let: Optional variables to use in the pipeline field stages.
+       */
+      {
+        from: "ProdutosCategorias",
+        localField: "Vendas.product_id",
+        foreignField: "id",
+        as: "Produto",
+      },
+  },
+  {
+    $unwind: "$Produto",
+  },
+  {
+    $project:
+      /**
+       * specifications: The fields to
+       *   include or exclude.
+       */
+      {
+        Cliente: {
+          PrimeiroNome: "$first_name",
+          UltimoNome: "$last_name",
+          Email: "$Email",
+          Morada: {
+            País: "$Morada.País",
+            Cidade: "$Morada.Cidade",
+            CodigoPostal: "$Morada.CodigoPostal",
+          },
+          TipoCliente: "$Tipo_Cliente",
+          ComprasRealizadas: "$ComprasRealizadas",
+          ValorTotal: "$ValorTotal",
+        },
+        Produtos: {
+          Codigo: "$Produto.id",
+          Marca: "$Produto.brand",
+          Modelo: "$Produto.model",
+          PreçoAtual: "$Produto.list_price",
+          Categorias: "$Produto.Categories",
+        },
+        Fatura: {
+          CodigoFatura: "$Faturas.invoice_id",
+          DataVenda: "$Faturas.date",
+          CodigoCliente: "$Faturas.customer_id",
+          ValorTotalVenda: "$Faturas.ValorTotal",
+          LinhaVenda: {
+            NumeroLinha: "$Vendas.id",
+            CodigoProduto: "$Vendas.product_id",
+            QuantidadeProduto: "$Vendas.quantity",
+            ValorTotalLinha:
+              "$Vendas.total_with_vat",
+          },
+        },
+      },
+  },
+]
